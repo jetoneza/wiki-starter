@@ -1,12 +1,18 @@
 import { getData } from "@/api/data";
-import { generateHtmlFromMarkdown } from "@/utils/content";
-import { notFound } from "next/navigation";
+import { generateHtmlFromMarkdown, getPageType } from "@/utils/content";
+import { notFound, redirect } from "next/navigation";
 
 export default async function Page({ params }: { params: Params }) {
   const data = await getData(params);
 
   if (!data) {
-    return notFound();
+    const { category, topic, content } = params;
+
+    const type = getPageType(params);
+
+    const redirectUrl = `/wiki/new?type=${type}&category=${category}&topic=${topic}&content=${content}`;
+
+    return redirect(redirectUrl);
   }
 
   const html = generateHtmlFromMarkdown(data.content);
