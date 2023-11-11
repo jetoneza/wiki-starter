@@ -1,6 +1,7 @@
 import { getData } from "@/api/data";
 import { generateHtmlFromMarkdown, getPageType } from "@/utils/content";
-import { notFound, redirect } from "next/navigation";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { redirect } from "next/navigation";
 
 export default async function Page({ params }: { params: Params }) {
   const data = await getData(params);
