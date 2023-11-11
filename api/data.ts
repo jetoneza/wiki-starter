@@ -27,9 +27,9 @@ export async function getCategories() {
 export async function getData(params: Params) {
   const hash = createHashFromParams(params);
 
-  const pageData = await prisma.page.findUnique({
+  const pageData = await prisma.page.findFirst({
     where: {
-      id: hash
+      pathHash: hash,
     },
   });
 
@@ -37,7 +37,20 @@ export async function getData(params: Params) {
 }
 
 export async function createPage(data: any) {
-  const hash = createHashFromParams(data as Params);
+  const hash = createHashFromParams(data.params as Params);
 
-  // TODO: Implement create
+  const { path, label, description, content, type } = data;
+
+  const page = await prisma.page.create({
+    data: {
+      pathHash: hash,
+      path,
+      label,
+      description,
+      content,
+      type,
+    },
+  });
+
+  return page;
 }

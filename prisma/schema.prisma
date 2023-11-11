@@ -11,8 +11,9 @@ datasource db {
 }
 
 model Page {
-  id String @id
+  id String @id @default(cuid())
   path String
+  pathHash String @default("")
   label String
   description String
   content String

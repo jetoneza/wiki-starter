@@ -1,8 +1,9 @@
 import { PageProps } from "@/.next/types/app/layout";
+import { createPage } from "@/api/data";
 import { redirect } from "next/navigation";
 
 export default async function New({ searchParams }: PageProps) {
-  const { type } = searchParams;
+  const { type, category, topic, content } = searchParams;
 
   const path = searchParams[type];
 
@@ -15,7 +16,16 @@ export default async function New({ searchParams }: PageProps) {
       label: formData.get("label"),
       description: formData.get("description"),
       content: formData.get("content"),
+      params: {
+        category,
+        topic,
+        content,
+      },
     };
+
+    const page = await createPage(data);
+
+    // TODO: Handle errors
 
     redirect(`/wiki/${data.path}`);
   }
