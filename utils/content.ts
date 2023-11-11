@@ -1,5 +1,6 @@
 import showdown from "showdown";
 import crypto from "crypto";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 export const generateHtmlFromMarkdown = (markdown: string): string => {
   const converter = new showdown.Converter();
@@ -24,7 +25,7 @@ export const getPageType = (params: Params) => {
     return "category";
   }
 
-  return invalid;
+  return "invalid";
 };
 
 export const createHashFromParams = (params: Params) => {
