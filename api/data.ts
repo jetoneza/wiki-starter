@@ -1,14 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 
-import metadata from "@/data/metadata";
-
 import { createHashFromParams } from "@/utils/content";
 
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { getFileData, writeToFile } from "@/utils/file";
 
 const prisma = new PrismaClient();
 
 export async function getMetadata() {
+  const metadata = await getFileData();
+
   return metadata;
 }
 
@@ -52,5 +53,22 @@ export async function createPage(data: any) {
     },
   });
 
+  await updateMetadata(hash, data);
+
   return page;
+}
+
+async function updateMetadata(hash: string, data: any) {
+  const metadata = await getFileData();
+
+  if (data.type === "category") {
+    metadata.push({
+      id: hash,
+      path: data.path,
+      label: data.label,
+      topics: [],
+    });
+  }
+
+  await writeToFile(metadata);
 }
