@@ -1,4 +1,5 @@
 import { PageProps } from "@/.next/types/app/layout";
+import { redirect } from "next/navigation";
 
 export default async function New({ searchParams }: PageProps) {
   const { type } = searchParams;
@@ -8,7 +9,15 @@ export default async function New({ searchParams }: PageProps) {
   async function create(formData: FormData) {
     "use server";
 
-    // TODO: mutate data
+    const data = {
+      type: formData.get("type"),
+      path: formData.get("path"),
+      label: formData.get("label"),
+      description: formData.get("description"),
+      content: formData.get("content"),
+    };
+
+    redirect(`/wiki/${data.path}`);
   }
 
   return (
@@ -20,6 +29,7 @@ export default async function New({ searchParams }: PageProps) {
             <label>Page Type</label>
             <select
               defaultValue={type}
+              name="type"
               className="mt-2 block w-full bg-white border border-gray-400 hover:border-gray-500 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="category">Category</option>
@@ -32,6 +42,7 @@ export default async function New({ searchParams }: PageProps) {
             <label>Path</label>
             <input
               type="text"
+              name="path"
               defaultValue={path}
               className="rounded-lg border border-gray-400 py-2 px-4"
               required
@@ -42,6 +53,7 @@ export default async function New({ searchParams }: PageProps) {
             <label>Label</label>
             <input
               type="text"
+              name="label"
               className="rounded-lg border border-gray-400 py-2 px-4"
               required
             />
@@ -51,6 +63,7 @@ export default async function New({ searchParams }: PageProps) {
             <label>Description</label>
             <input
               type="text"
+              name="description"
               className="rounded-lg border border-gray-400 py-2 px-4"
               required
             />
@@ -59,6 +72,7 @@ export default async function New({ searchParams }: PageProps) {
           <div className="flex flex-col space-y-4">
             <label>Content</label>
             <textarea
+              name="content"
               className="mt-2 rounded-lg border border-gray-400 p-4"
               rows={20}
               required

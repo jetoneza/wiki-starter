@@ -1,4 +1,5 @@
 import showdown from "showdown";
+import crypto from "crypto";
 
 export const generateHtmlFromMarkdown = (markdown: string): string => {
   const converter = new showdown.Converter();
@@ -24,4 +25,12 @@ export const getPageType = (params: Params) => {
   }
 
   return invalid;
+};
+
+export const createHashFromParams = (params: Params) => {
+  const { category, topic, content } = params;
+
+  const key = `${category}:${topic}:${content}`;
+
+  return crypto.createHash("sha256").update(key).digest("hex");
 };

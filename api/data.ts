@@ -1,6 +1,6 @@
-import crypto from "crypto";
 import data from "@/data/data";
 import metadata from "@/data/metadata";
+import { createHashFromParams } from "@/utils/content";
 
 export async function getMetadata() {
   return metadata;
@@ -11,13 +11,29 @@ export async function getCategories() {
 }
 
 export async function getData(params: Params) {
-  const { category, topic, content } = params;
-
-  const key = `${category}:${topic}:${content}`;
-
-  const hash = crypto.createHash("sha256").update(key).digest("hex");
+  const hash = createHashFromParams(params);
 
   const pageData = data.find((page) => page.id === hash);
 
   return pageData;
+}
+
+export async function createPage(data: any) {
+  const hash = createHashFromParams(data as Params);
+
+  data.push({
+    ...data,
+    id: hash,
+  });
+
+  if (data.type === "category") {
+    metadata.push({
+      id: hash,
+      path: data.path,
+      label: data.label,
+      topics: [],
+    });
+  }
+
+  // TODO: Add for others
 }
