@@ -5,10 +5,15 @@ import { redirect } from "next/navigation";
 import { PageProps } from "@/.next/types/app/layout";
 
 // API
-import { createPage } from "@/api/data";
+import { createPage, getMetadata } from "@/api/data";
+
+// Components
+import PageType from "@/app/components/PageType";
 
 export default async function New({ searchParams }: PageProps) {
   const { type, category, topic, content } = searchParams;
+
+  const metadata = (await getMetadata()) ?? [];
 
   const path = searchParams[type];
 
@@ -43,18 +48,12 @@ export default async function New({ searchParams }: PageProps) {
           className="mt-10 flex flex-col space-y-8 font-mono"
           action={create}
         >
-          <div className="flex flex-col space-y-4 sm:w-1/4">
-            <label className="text-sm font-bold">Page Type</label>
-            <select
-              defaultValue={type}
-              name="type"
-              className="rounded-lg border border-gray-400 py-2 px-4"
-            >
-              <option value="category">Category</option>
-              <option value="topic">Topic</option>
-              <option value="content">Content</option>
-            </select>
-          </div>
+          <PageType
+            type={type}
+            category={category}
+            topic={topic}
+            metadata={metadata}
+          />
 
           <div className="flex flex-col space-y-4">
             <label className="text-sm font-bold">Path</label>
