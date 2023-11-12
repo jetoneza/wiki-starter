@@ -69,16 +69,41 @@ export async function createPage(data: any) {
 async function updateMetadata(hash: string, data: any) {
   const metadata = await getFileData();
 
+  const link = {
+    id: hash,
+    path: data.path,
+    label: data.label,
+  };
+
   if (data.type === "category") {
     metadata.push({
-      id: hash,
-      path: data.path,
-      label: data.label,
+      ...link,
       topics: [],
     });
   }
 
-  // TODO: Handle creation of `topic` and `content`
+  if (data.type === "topic") {
+    const category = metadata.find(
+      (category: any) => category.path === data.params.category,
+    );
+
+    category.topics.push({
+      ...link,
+      contents: [],
+    });
+  }
+
+  if (data.type === "content") {
+    const category = metadata.find(
+      (category: any) => category.path === data.params.category,
+    );
+
+    const topic = category.topics.find(
+      (topic: any) => topic.path === data.params.topic,
+    );
+
+    topic.contents.push(link);
+  }
 
   await writeToFile(metadata);
 }

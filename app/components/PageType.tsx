@@ -38,6 +38,8 @@ export default function PageType({
   };
 
   const renderTopicSelect = () => {
+    // TODO: Restrict creation of content if the category selected has no topics
+
     if (pageType !== "content") {
       return null;
     }

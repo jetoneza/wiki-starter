@@ -11,7 +11,7 @@ import { createPage, getMetadata } from "@/api/data";
 import PageType from "@/app/components/PageType";
 
 export default async function New({ searchParams }: PageProps) {
-  const { type, category, topic, content } = searchParams;
+  const { type, category, topic } = searchParams;
 
   const metadata = (await getMetadata()) ?? [];
 
@@ -20,24 +20,50 @@ export default async function New({ searchParams }: PageProps) {
   async function create(formData: FormData) {
     "use server";
 
+    const type = formData.get("type");
+
+    // TODO: Use correct type
+    const params: { [key: string]: any } = {};
+
+    if (type === "category") {
+      params.category = formData.get("path");
+    }
+
+    if (type === "topic") {
+      params.category = formData.get("category");
+      params.topic = formData.get("path");
+    }
+
+    if (type === "content") {
+      params.category = formData.get("category");
+      params.topic = formData.get("topic");
+      params.content = formData.get("path");
+    }
+
     const data = {
       type: formData.get("type"),
       path: formData.get("path"),
       label: formData.get("label"),
       description: formData.get("description"),
       content: formData.get("content"),
-      params: {
-        category,
-        topic,
-        content,
-      },
+      params,
     };
 
     const page = await createPage(data);
 
     // TODO: Handle errors
 
-    redirect(`/wiki/${data.path}`);
+    let pageUrl = `/wiki/${params.category}`;
+
+    if (type === "topic") {
+      pageUrl += `/${params.topic}`;
+    }
+
+    if (type === "content") {
+      pageUrl += `/${params.topic}/${params.content}`;
+    }
+
+    redirect(pageUrl);
   }
 
   return (
