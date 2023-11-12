@@ -20,9 +20,12 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <div className="page p-20">
-      <div className="py-20 px-8 border rounded-lg">
-        <h1 className="text-4xl font-bold text-cyan-600">{data.label}</h1>
-        <p className="text-gray-700">{data.description}</p>
+      <div className="py-10 px-8 border rounded-lg">
+        <div className="header flex flex-col space-y-4">
+          <h1 className="text-4xl font-bold text-cyan-600">{data.label}</h1>
+          <p className="text-gray-700">{data.description}</p>
+        </div>
+        <hr className="h-px my-8 bg-gray-200 border-0" />
         <article
           className="prose mt-10 prose-img:mx-auto prose-img:rounded-md max-w-none"
           dangerouslySetInnerHTML={{ __html: html }}
