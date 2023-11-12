@@ -1,5 +1,8 @@
-import { getMetadata } from "@/api/data";
+// Libs
 import Link from "next/link";
+
+// API
+import { getMetadata } from "@/api/data";
 
 export default async function Sidebar() {
   const data = (await getMetadata()) ?? [];
@@ -21,9 +24,7 @@ export default async function Sidebar() {
               key={topic.id}
               className="block"
             >
-              <span className="text-gray-800">
-                {topic.label}
-              </span>
+              <span className="text-gray-800">{topic.label}</span>
               {topic.contents.map((content: any) => (
                 <Link
                   href={`/wiki/${category.path}/${topic.path}/${content.path}`}

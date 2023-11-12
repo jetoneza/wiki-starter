@@ -1,10 +1,17 @@
-import { getData } from "@/api/data";
-import { generateHtmlFromMarkdown, getPageType } from "@/utils/content";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+// Libs
 import { redirect } from "next/navigation";
 
+// Utils
+import { generateHtmlFromMarkdown, getPageType } from "@/utils/content";
+
+// Types
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+
+// API
+import { getPage } from "@/api/data";
+
 export default async function Page({ params }: { params: Params }) {
-  const data = await getData(params);
+  const data = await getPage(params);
 
   if (!data) {
     const { category, topic, content } = params;

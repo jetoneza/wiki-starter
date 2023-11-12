@@ -1,9 +1,12 @@
+// Libs
 import { PrismaClient } from "@prisma/client";
 
-import { createHashFromParams } from "@/utils/content";
-
+// Types
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+
+// Utils
 import { getFileData, writeToFile } from "@/utils/file";
+import { createHashFromParams } from "@/utils/content";
 
 const prisma = new PrismaClient();
 
@@ -25,7 +28,7 @@ export async function getCategories() {
   return pages;
 }
 
-export async function getData(params: Params) {
+export async function getPage(params: Params) {
   const hash = createHashFromParams(params);
 
   const pageData = await prisma.page.findFirst({
@@ -38,7 +41,12 @@ export async function getData(params: Params) {
 }
 
 export async function createPage(data: any) {
+  // TODO: Limit page creation to authorized users only
+  // TODO: Validate data
+
   const hash = createHashFromParams(data.params as Params);
+
+  // TODO: Check for duplicates
 
   const { path, label, description, content, type } = data;
 
@@ -69,6 +77,8 @@ async function updateMetadata(hash: string, data: any) {
       topics: [],
     });
   }
+
+  // TODO: Handle creation of `topic` and `content`
 
   await writeToFile(metadata);
 }

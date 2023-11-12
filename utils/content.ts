@@ -13,6 +13,8 @@ export const generateHtmlFromMarkdown = (markdown: string): string => {
 export const getPageType = (params: Params) => {
   const { category, topic, content } = params;
 
+  // TODO: Add values to constants
+
   if (category && topic && content) {
     return "content";
   }

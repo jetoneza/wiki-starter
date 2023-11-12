@@ -1,5 +1,8 @@
-import { getCategories } from "@/api/data";
+// Libs
 import Link from "next/link";
+
+// API
+import { getCategories } from "@/api/data";
 
 export default async function Home() {
   const categories = await getCategories();

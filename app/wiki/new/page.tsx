@@ -1,6 +1,11 @@
-import { PageProps } from "@/.next/types/app/layout";
-import { createPage } from "@/api/data";
+// Libs
 import { redirect } from "next/navigation";
+
+// Types
+import { PageProps } from "@/.next/types/app/layout";
+
+// API
+import { createPage } from "@/api/data";
 
 export default async function New({ searchParams }: PageProps) {
   const { type, category, topic, content } = searchParams;
