@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <div className="page p-20">
-      <div className="py-10 px-8 border rounded-lg">
+      <div className="py-10 px-8 border rounded-lg drop-shadow-2xl">
         <div className="header flex flex-col space-y-4">
           <h1 className="text-4xl font-bold text-cyan-600">{data.label}</h1>
           <p className="text-gray-700">{data.description}</p>
