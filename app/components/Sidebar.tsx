@@ -10,9 +10,9 @@ export default async function Sidebar() {
         <Link
           href={`/wiki/${category.path}`}
           key={category.id}
-          className="mb-4"
+          className="mb-4 text-sm"
         >
-          <span className="font-semibold text-cyan-600 text-lg">
+          <span className="font-bold text-cyan-600 uppercase">
             {category.label}
           </span>
           {category.topics.map((topic: any) => (
@@ -21,14 +21,16 @@ export default async function Sidebar() {
               key={topic.id}
               className="block"
             >
-              <span className="font-semibold text-gray-800">{topic.label}</span>
+              <span className="text-gray-800">
+                {topic.label}
+              </span>
               {topic.contents.map((content: any) => (
                 <Link
                   href={`/wiki/${category.path}/${topic.path}/${content.path}`}
                   key={content.id}
                   className="block"
                 >
-                  <span className="font-semibold text-gray-500 text-sm ml-4">
+                  <span className="text-gray-500 text-sm ml-4">
                     {content.label}
                   </span>
                 </Link>
